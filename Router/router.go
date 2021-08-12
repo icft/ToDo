@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func initRouter() *mux.Router {
+func InitRouter() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/ToDo/problem", Server.GetAll).
 		Methods("GET")

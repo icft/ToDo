@@ -3,6 +3,7 @@ package Database
 import (
 	"ToDo/Structures"
 	"context"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -10,15 +11,14 @@ import (
 	"log"
 )
 
-const HOST = "mongodb://localhost:27017"
 const dbName = "ToDo"
 const collectionName = "rec"
 
 var collection *mongo.Collection
 
 //Functions with database
-func initDb() {
-	var clientOpts = options.Client().ApplyURI(HOST)
+func init() {
+	var clientOpts = options.Client().ApplyURI("mongodb://127.0.0.1:27017")
 	var client, err = mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal(err)
@@ -26,7 +26,9 @@ func initDb() {
 	if err = client.Ping(context.TODO(), nil); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Connected complete")
 	collection = client.Database(dbName).Collection(collectionName)
+	fmt.Println("Collection complete")
 }
 
 func AddToDb(rec Structures.Records) {
