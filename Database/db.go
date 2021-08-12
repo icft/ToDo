@@ -3,6 +3,7 @@ package Database
 import (
 	"ToDo/Structures"
 	"context"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -24,7 +25,11 @@ func init() {
 	if err = client.Ping(context.TODO(), nil); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("******************")
+	fmt.Println("Connection complete")
 	collection = client.Database(dbName).Collection(collectionName)
+	fmt.Println("Get collection complete")
+	fmt.Printf("******************\n\n")
 }
 
 func AddToDb(rec Structures.Records) {
