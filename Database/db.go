@@ -11,7 +11,7 @@ import (
 )
 
 const dbName = "ToDo"
-const collectionName = "rec"
+const collectionName = "problems"
 
 var collection *mongo.Collection
 
