@@ -15,7 +15,6 @@ const collectionName = "rec"
 
 var collection *mongo.Collection
 
-//Functions with database
 func init() {
 	var clientOpts = options.Client().ApplyURI("mongodb://127.0.0.1:27017")
 	var client, err = mongo.Connect(context.TODO(), clientOpts)
