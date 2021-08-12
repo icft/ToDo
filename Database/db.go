@@ -17,7 +17,7 @@ const collectionName = "rec"
 var collection *mongo.Collection
 
 //Functions with database
-func init_db() {
+func initDb() {
 	var clientOpts = options.Client().ApplyURI(HOST)
 	var client, err = mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
@@ -46,11 +46,12 @@ func DelInDb(problem string) {
 		log.Fatal(err)
 	}
 }
-func DelAll() {
-	var _, err = collection.DeleteMany(context.TODO(), bson.M{}, nil)
+func DelAll() int64 {
+	var c, err = collection.DeleteMany(context.TODO(), bson.M{}, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+	return c.DeletedCount
 }
 
 func GetAll() []primitive.M {
@@ -75,7 +76,7 @@ func GetAll() []primitive.M {
 	return results
 }
 
-func updateRec(problem string, stat int) {
+func UpdateRec(problem string, stat int) {
 	var id, err = primitive.ObjectIDFromHex(problem)
 	if err != nil {
 		log.Fatal(err)
