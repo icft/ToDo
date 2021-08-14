@@ -11,7 +11,7 @@ import (
 
 func CreateProblem(w http.ResponseWriter, r *http.Request) {
 	var jsonDecoder = json.NewDecoder(r.Body)
-	var rec Structures.Records
+	var rec Structures.Note
 	if err := jsonDecoder.Decode(&rec); err != nil {
 		log.Fatal(err)
 	}
@@ -40,7 +40,7 @@ func CancelExecution(w http.ResponseWriter, r *http.Request) {
 func DeleteProblem(w http.ResponseWriter, r *http.Request) {
 	var vars = mux.Vars(r)
 	Database.DelInDb(vars["id"])
-	if err := json.NewEncoder(w).Encode("id"); err != nil {
+	if err := json.NewEncoder(w).Encode(vars["id"]); err != nil {
 		http.Error(w, err.Error(), 500)
 	}
 }
@@ -53,7 +53,5 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func DelAll(w http.ResponseWriter, r *http.Request) {
-	if err := json.NewEncoder(w).Encode(Database.DelAll()); err != nil {
-		http.Error(w, err.Error(), 500)
-	}
+	Database.DelAll()
 }

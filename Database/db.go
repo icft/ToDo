@@ -11,13 +11,14 @@ import (
 	"log"
 )
 
-const dbName = "ToDo"
-const collectionName = "problems"
+const HOST = "mongodb://127.0.0.1:27017"
+const dbName = "todo"
+const collectionName = "notes"
 
 var collection *mongo.Collection
 
 func init() {
-	var clientOpts = options.Client().ApplyURI("mongodb://127.0.0.1:27017")
+	var clientOpts = options.Client().ApplyURI(HOST)
 	var client, err = mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal(err)
@@ -32,9 +33,8 @@ func init() {
 	fmt.Printf("******************\n\n")
 }
 
-func AddToDb(rec Structures.Records) {
-	var _, err = collection.InsertOne(context.TODO(), rec)
-	if err != nil {
+func AddToDb(rec Structures.Note) {
+	if _, err := collection.InsertOne(context.TODO(), rec); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -44,17 +44,14 @@ func DelInDb(problem string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	_, err = collection.DeleteOne(context.TODO(), bson.M{"id": id})
-	if err != nil {
+	if _, err = collection.DeleteOne(context.TODO(), bson.M{"id": id}); err != nil {
 		log.Fatal(err)
 	}
 }
-func DelAll() int64 {
-	var c, err = collection.DeleteMany(context.TODO(), bson.M{}, nil)
-	if err != nil {
+func DelAll() {
+	if _, err := collection.DeleteMany(context.TODO(), bson.M{}, nil); err != nil {
 		log.Fatal(err)
 	}
-	return c.DeletedCount
 }
 
 func GetAll() []primitive.M {
@@ -73,7 +70,7 @@ func GetAll() []primitive.M {
 	if err = cur.Err(); err != nil {
 		log.Fatal(err)
 	}
-	if cur.Close(context.TODO()) != nil {
+	if err = cur.Close(context.TODO()); err != nil {
 		log.Fatal(err)
 	}
 	return results
