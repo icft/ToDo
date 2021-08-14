@@ -1,7 +1,6 @@
 package Database
 
 import (
-	"ToDo/Structures"
 	"context"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
@@ -33,7 +32,7 @@ func init() {
 	fmt.Printf("******************\n\n")
 }
 
-func AddToDb(rec Structures.Note) {
+func AddToDb(rec Note) {
 	if _, err := collection.InsertOne(context.TODO(), rec); err != nil {
 		log.Fatal(err)
 	}
