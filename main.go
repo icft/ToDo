@@ -1,14 +1,14 @@
 package main
 
 import (
-	"ToDo/Router"
+	"ToDo/Server"
 	"fmt"
 	"log"
 	"net/http"
 )
 
 func main() {
-	var router = Router.InitRouter()
+	var router = Server.InitRouter()
 	fmt.Println("******************")
 	fmt.Println("Create router complete")
 	fmt.Printf("******************\n\n")
